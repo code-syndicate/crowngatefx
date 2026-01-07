@@ -3,7 +3,7 @@ import dbConnect from "../../../../lib/dbConnect";
 
 export const prerender = false;
 
-export async function get({ request, params }) {
+export async function GET({ request, params }) {
   await dbConnect();
 
   //   console.log(params);

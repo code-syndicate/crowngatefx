@@ -5,7 +5,7 @@ import { hashPassword } from "../../lib/hashing";
 
 export const prerender = false;
 
-export async function post({ request, cookies, redirect }) {
+export async function POST({ request, cookies, redirect }) {
   if (request.headers.get("Content-Type") === "application/json") {
     const body = JSON.parse(await request.json());
 

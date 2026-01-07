@@ -4,7 +4,7 @@ import dbConnect from "../../../lib/dbConnect";
 
 export const prerender = false;
 
-export async function post({ request }) {
+export async function POST({ request }) {
   if (request.headers.get("Content-Type") === "application/json") {
     const body = JSON.parse(await request.json());
 
@@ -56,7 +56,7 @@ export async function post({ request }) {
   );
 }
 
-export async function put({ request }) {
+export async function PUT({ request }) {
   if (request.headers.get("Content-Type") === "application/json") {
     const body = JSON.parse(await request.json());
 
