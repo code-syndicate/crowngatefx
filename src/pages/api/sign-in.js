@@ -32,7 +32,7 @@ export async function POST({ request, cookies, redirect }) {
   }
 
 
-  
+  //send 
   return new Response(
     JSON.stringify({
       message: "Invalid Content-Type",
