@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Outfit";
+}
+
+@keyframes scroll {
+  0% {
+    transform: translate(0%);
+  }
+
+  100% {
+    transform: translate(-250%);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.3s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out forwards;
+}
+
+.h-scroll {
+  animation: scroll 25s linear infinite alternate 2s;
+}
+
+.no-scrollbar {
+  overflow: auto;
+  scrollbar-width: thin; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
+}
+
+/* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.no-scrollbar::-moz-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Internet Explorer and Edge */
+.no-scrollbar {
+  -ms-overflow-style: none;
+}
+
+@layer components {
+  .transition-flow {
+    @apply transition-colors duration-[350];
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r  from-textColor  to-textColor/50  bg-clip-text text-transparent;
+  }
+
+  .hover-text {
+    @apply transition-flow hover:cursor-pointer hover:text-textColor;
+  }
+
+  .transition-flow {
+    @apply transition-all   duration-[400];
+  }
+
+  /* Glassmorphism Utilities */
+  .glass-panel {
+    @apply bg-bg2/30 backdrop-blur-md border border-white/5 shadow-xl;
+  }
+
+  .glass-input {
+    @apply bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-theme/50 focus:ring-1 focus:ring-theme/50 backdrop-blur-sm;
+  }
+
+  .btn-primary {
+    @apply inline-flex border border-theme/20 justify-center items-center space-x-4 bg-theme/10 text-theme rounded-md px-6 py-3 hover:bg-theme hover:text-white hover:scale-[1.02] transform transition-flow disabled:opacity-40 disabled:pointer-events-none disabled:cursor-not-allowed shadow-lg shadow-theme/10;
+  }
+
+  .btn-basic {
+    @apply inline-flex text-white/70 justify-center items-center space-x-4 bg-white/5 border border-white/5 px-6 py-3 hover:bg-white/10 hover:text-white transition-flow disabled:opacity-40 disabled:pointer-events-none disabled:cursor-not-allowed backdrop-blur-sm;
+  }
+
+  .field {
+    @apply rounded-lg border text-sm transition-flow outline-none py-3 px-4 w-full glass-input;
+  }
+}

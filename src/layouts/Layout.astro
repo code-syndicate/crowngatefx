@@ -1,0 +1,79 @@
+---
+const { title } = Astro.props;
+import config from "../config";
+import "../styles/index.css";
+import Header from "../components/Header.jsx";
+import Sidebar from "../components/Sidebar";
+import { checkAuth } from "../lib/checkauth";
+import Notify from "../components/Notify";
+import WalletDetails from "../components/WalletDetails";
+import WithdrawalPopup from "../components/WithdrawPopup";
+
+if (!Astro.cookies.has(config.authCookieKey)) {
+  return Astro.redirect("/sign-in");
+}
+
+const authUser = Astro.cookies.get(config.authCookieKey).value;
+
+const isAuth = await checkAuth({
+  email: authUser,
+});
+
+if (!isAuth) {
+  return Astro.redirect("/sign-in");
+}
+
+const user = isAuth.user;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={config.description} />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#131720" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body class="bg-bg1 text-text1 bg-[url('/bg.svg')]">
+    <script is:inline type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          { pageLanguage: "en" },
+          "google_translate_element"
+        );
+      }
+    </script>
+
+    <script
+      is:inline
+      type="text/javascript"
+      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
+
+    <Header user={user} client:load />
+
+    <Notify client:load />
+    <WalletDetails client:load />
+    <WithdrawalPopup user={user} client:load />
+
+    <slot />
+    <Sidebar client:only="react" />
+  </body>
+</html>
