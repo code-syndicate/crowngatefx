@@ -1,9 +1,9 @@
 const config = {
-	appName: "Insured Growth FX",
+	appName: "CrownGate FX",
 	description:
-		"Insured Growth FX is a cryptocurrency broker based in the United States. With a focus on simplicity, Insured Growth FX allows you to buy and sell Bitcoin and other cryptocurrencies instantly and easily.",
+		"CrownGate FX is a premium cryptocurrency broker. With a focus on security and simplicity, CrownGate FX allows you to buy and sell Bitcoin and other cryptocurrencies instantly and easily.",
 
-	apiUrl: import.meta.env.PUBLIC_API_URL || "http://localhost:3000/api",
+	apiUrl: import.meta.env.PUBLIC_API_URL || "http://localhost:4321/api",
 
 	authCookieKey: "AUTH_USER_ECCENTRIC",
 	apiEndpoints: {

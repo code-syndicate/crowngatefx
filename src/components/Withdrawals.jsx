@@ -185,7 +185,7 @@ function WithdrawalsList({ authUser }) {
                           <th className="py-6 px-4">Bank Name</th>
                           <th className="py-6 px-4">SWIFT</th>
 
-                          <th className="py-6 px-4 text-green-500">Actions</th>
+                          <th className="py-6 px-4 text-theme">Actions</th>
 
                           {/* Add more headers as needed */}
                         </tr>
@@ -248,7 +248,7 @@ function WithdrawalsList({ authUser }) {
                                   onClick={async () => {
                                     await approveWithdrawal(w._id);
                                   }}
-                                  className="inline-bock  cursor-pointer px-1 text-green-500 hover:text-green-400"
+                                  className="inline-bock  cursor-pointer px-1 text-theme hover:text-theme-hover"
                                 >
                                   Approve
                                 </span>

@@ -4,13 +4,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        bg1: "#131720",
-        bg2: "#212B39",
-        bg3: "#171F2A",
-        text1: "#FFFFFF",
-        theme: "#10B981",
+        bg1: "#0B0E13", // Deep dark blue/black
+        bg2: "#151A23", // Slightly lighter for cards
+        bg3: "#1A202C", // Borders/Inputs
+        text1: "#F9FAFB", // White text
+        text2: "#9CA3AF", // Muted text
+        theme: "#D4AF37", // Crown Gold
+        "theme-hover": "#B5952F", // Darker Gold
         primary: "#FFFFFF",
-        background: "#131720",
+        background: "#0B0E13",
       },
 
       animation: {

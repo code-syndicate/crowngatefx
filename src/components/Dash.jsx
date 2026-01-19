@@ -19,7 +19,7 @@ function Dash({ auth }) {
           <h1 className="text-3xl font-bold text-white tracking-tight">
             Dashboard Overview
           </h1>
-          <p className="text-text1/50">Welcome back to Insured Growth FX</p>
+          <p className="text-text1/50">Welcome back to CrownGate FX</p>
         </div>
 
         <button

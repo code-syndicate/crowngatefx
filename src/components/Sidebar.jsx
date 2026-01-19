@@ -46,7 +46,7 @@ function Sidebar() {
         }
       >
         <div className="w-full flex justify-center pb-6">
-          <img src={LogoImage.src} alt="Insured Growth FX" className="w-32" />
+          <img src={LogoImage.src} alt="CrownGate FX" className="w-32" />
         </div>
 
         <div className="w-full space-y-2">
@@ -64,7 +64,7 @@ function Sidebar() {
                     "bg-theme/10 text-theme": isActive,
                     "text-text1/70 hover:bg-white/5 hover:text-white":
                       !isActive,
-                  }
+                  },
                 )}
               >
                 <Icon
@@ -117,7 +117,7 @@ function Sidebar() {
                           "bg-theme/10 text-theme": isActive,
                           "text-text1/70 hover:bg-white/5 hover:text-white":
                             !isActive,
-                        }
+                        },
                       )}
                     >
                       <Icon

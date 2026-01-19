@@ -56,7 +56,7 @@ function SignInForm() {
   }
 
   return (
-    <div className="min-h-screen bg-[url('/bg.svg')] bg-cover bg-center flex flex-col justify-center items-center p-4">
+    <div className="min-h-screen bg-[url('/bg-premium.png')] bg-cover bg-center flex flex-col justify-center items-center p-4">
       <Formik
         validationSchema={schema}
         initialValues={{

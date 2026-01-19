@@ -100,7 +100,7 @@ function AdminUsersList({ authUser }) {
                         <th className="py-6 px-4">Withdrawals</th>
                         <th className="py-6 px-4">Deposits</th>
                         <th className="py-6 px-4"> Joined </th>
-                        <th className="py-6 px-4 text-green-500">Actions</th>
+                        <th className="py-6 px-4 text-theme">Actions</th>
 
                         {/* Add more headers as needed */}
                       </tr>
@@ -143,7 +143,7 @@ function AdminUsersList({ authUser }) {
                           </td>
 
                           <td className="py-4 px-4 text-center table-cell  flex-col justify-start space-y-2">
-                            <span className="inline-bock  cursor-pointer px-1 text-green-500 hidden hover:text-green-400">
+                            <span className="inline-bock  cursor-pointer px-1 text-theme hidden hover:text-theme-hover">
                               Credit
                             </span>
                             <span

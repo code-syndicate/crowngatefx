@@ -6,7 +6,7 @@ function Footer() {
       <div>
         <p className="text-sm text-center">
           &copy; {new Date().getFullYear()} . All rights reserved.{" "}
-          <span className="text-[#3ebf81]">
+          <span className="text-theme">
             &nbsp;&nbsp;
             {config.appName}
           </span>

@@ -15,7 +15,7 @@ function Profile({ user }) {
         <p className="font-semibold text-center text-white text-xl lg:text-2xl">
           {user?.firstName} {user?.lastName}
         </p>
-        <p className="text-center text-sm text-[#3ebf81]/80 font-normal">
+        <p className="text-center text-sm text-theme/80 font-normal">
           {user?.email}
         </p>
 

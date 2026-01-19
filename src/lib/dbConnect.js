@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = import.meta.env.DB_URL || "mongodb://localhost:27017/insuredgrowthfx";
+const MONGODB_URI = import.meta.env.DB_URL || "mongodb://localhost:27017/crowngatefx";
 
 if (!MONGODB_URI) {
   throw new Error(

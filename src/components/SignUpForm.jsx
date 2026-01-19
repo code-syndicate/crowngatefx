@@ -78,7 +78,7 @@ function SignUpForm() {
   }
 
   return (
-    <div className="min-h-screen bg-[url('/bg.svg')] bg-cover bg-center flex flex-col justify-center items-center py-12 px-4">
+    <div className="min-h-screen bg-[url('/bg-premium.png')] bg-cover bg-center flex flex-col justify-center items-center py-12 px-4">
       <Formik
         validationSchema={schema}
         initialValues={{
@@ -101,7 +101,7 @@ function SignUpForm() {
                 <h1 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">
                   Create Account
                 </h1>
-                <p className="text-text1/50 text-sm">Join Insured Growth FX</p>
+                <p className="text-text1/50 text-sm">Join CrownGate FX</p>
               </div>
 
               <div className="w-full grid grid-cols-2 gap-4">
