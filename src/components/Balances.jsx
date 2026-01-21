@@ -2,9 +2,6 @@ import BitcoinImage from "../assets/crypto/bitcoin.png";
 import EthereumImage from "../assets/crypto/etherium.png";
 import DogecoinImage from "../assets/crypto/dogecoin.png";
 import BinanceImage from "../assets/crypto/binance.png";
-import BitcoinQr from "../assets/qr/bitcoin.jpeg";
-import EthereumQr from "../assets/qr/ethereum.jpeg";
-import BinanceQr from "../assets/qr/binance.jpeg";
 
 import { setWalletQr } from "../lib/atoms";
 
@@ -13,30 +10,30 @@ const items = [
     image: BitcoinImage,
     title: "Bitcoin",
     key: "bitcoin",
-    qr: BitcoinQr,
-    addr: "bc1qjdt2uqg5m2lqtankhe9lknqd5vwa58c7cyhdpn",
+    addr: "bc1qtws30qppepjmj7atkf0wveshy9aeyqqll9utff",
+    enabled: true,
   },
 
   {
     image: EthereumImage,
     title: "Ethereum",
     key: "ethereum",
-    qr: EthereumQr,
-    addr: "0xa8304e8b3b4b01a43368fe912d10085e19472bd8",
+    addr: "0x2030f0Ed7d5618252Ab489AA7404Fa765C36BdfF",
+    enabled: true,
   },
 
   {
     image: DogecoinImage,
     title: "Dogecoin",
     key: "dogecoin",
+    enabled: false,
   },
 
   {
     image: BinanceImage,
     title: "Binance",
     key: "smartchain",
-    addr: "0x18ab89c22699ad4aaa52a1fcef44e4d6486c3834",
-    qr: BinanceQr,
+    enabled: false,
   },
 ];
 
@@ -44,6 +41,10 @@ function Balances({ account }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6">
       {items.map((v, i) => {
+        const qrUrl = v.enabled
+          ? `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${v.addr}`
+          : null;
+
         return (
           <div
             key={i}
@@ -71,18 +72,18 @@ function Balances({ account }) {
               </div>
 
               <button
-                disabled={!v.qr}
+                disabled={!v.enabled}
                 onClick={() => {
-                  if (!v.qr) return;
+                  if (!v.enabled) return;
                   setWalletQr({
-                    img: v.qr.src,
+                    img: qrUrl,
                     show: true,
                     address: v.addr || "",
                   });
                 }}
                 className="w-full py-3 rounded-xl border border-accent/30 text-accent font-bold text-sm hover:bg-accent/10 hover:border-accent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-accent/30"
               >
-                {v.qr ? "Deposit" : "Coming Soon"}
+                {v.enabled ? "Deposit" : "Coming Soon"}
               </button>
             </div>
           </div>
