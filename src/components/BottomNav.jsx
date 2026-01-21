@@ -1,25 +1,35 @@
 import {
-  BsSpeedometer,
-  BsArrowLeftRight,
+  BsSpeedometer2,
+  BsGraphUpArrow,
   BsWallet2,
   BsPerson,
 } from "react-icons/bs";
 import cn from "classnames";
+import { useState, useEffect } from "react";
 
 function BottomNav() {
+  const [currentPath, setCurrentPath] = useState("/dashboard");
+
+  useEffect(() => {
+    // Get path on client side
+    if (typeof window !== "undefined") {
+      setCurrentPath(window.location.pathname);
+    }
+  }, []);
+
   const items = [
-    { title: "Home", icon: BsSpeedometer, link: "/dashboard" },
-    { title: "Trade", icon: BsArrowLeftRight, link: "/exchanges" },
+    { title: "Home", icon: BsSpeedometer2, link: "/dashboard" },
+    { title: "Trade", icon: BsGraphUpArrow, link: "/exchanges" },
     { title: "Wallet", icon: BsWallet2, link: "/wallets" },
     { title: "Profile", icon: BsPerson, link: "/settings" },
   ];
 
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-bg1/95 backdrop-blur-xl border-t border-white/10 z-[100]">
+    <nav className="fixed bottom-0 left-0 right-0 bg-bg1 border-t border-white/10 z-[9999] lg:hidden">
       <div className="flex justify-around items-center px-2 py-3 pb-safe">
         {items.map((item, i) => {
           const Icon = item.icon;
-          const isActive = location.pathname === item.link;
+          const isActive = currentPath === item.link;
 
           return (
             <a
