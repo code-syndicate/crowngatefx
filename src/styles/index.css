@@ -71,6 +71,11 @@
   -ms-overflow-style: none;
 }
 
+/* iOS Safe Area utilities */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
 @layer components {
   .transition-flow {
     @apply transition-colors duration-[350];

@@ -35,10 +35,13 @@ const account = isAuth.user.account;
       <h1 class="text-xl font-bold text-white tracking-tight">Your Assets</h1>
     </div>
 
-    <!-- Prices Section (Contains its own desktop header) -->
-    <Prices client:load auth={isAuth} />
+    <!-- Desktop Header -->
+    <div class="hidden lg:block px-8 pt-8 max-w-7xl mx-auto">
+      <h1 class="text-3xl font-bold text-white tracking-tight">Wallet Overview</h1>
+      <p class="text-text2 mt-1">Manage your assets and track transactions.</p>
+    </div>
 
-    <!-- Summary Cards -->
+    <!-- Main Content -->
     <div class="px-4 lg:px-8 py-6 max-w-7xl mx-auto space-y-6">
       
       <!-- Quick Stats - Horizontal scroll on mobile -->
@@ -62,6 +65,14 @@ const account = isAuth.user.account;
       <!-- Withdraw Action -->
       <div class="card-nebula p-5">
         <WCard client:load account={account} />
+      </div>
+
+      <!-- Coin Balances Section -->
+      <div>
+        <h4 class="text-base lg:text-lg font-bold text-white mb-4">
+          Coin Balances
+        </h4>
+        <Prices client:load auth={isAuth} />
       </div>
 
       <!-- Transaction History -->

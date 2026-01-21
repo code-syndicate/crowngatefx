@@ -74,7 +74,7 @@ const user = isAuth.user;
     </div>
     
     <!-- Main Content Area -->
-    <main class="lg:ml-24 min-h-screen pt-0 lg:pt-0 pb-28 lg:pb-8">
+    <main class="lg:ml-64 min-h-screen pb-24 lg:pb-8">
       <Notify client:load />
       <WalletDetails client:load />
       <WithdrawalPopup user={user} client:load />
@@ -82,10 +82,10 @@ const user = isAuth.user;
       <slot />
     </main>
     
-    {/* Desktop Sidebar */}
+    <!-- Desktop Sidebar -->
     <Sidebar client:only="react" />
     
-    {/* Mobile Bottom Nav */}
+    <!-- Mobile Bottom Nav -->
     <BottomNav client:load />
   </body>
 </html>
