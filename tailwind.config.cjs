@@ -38,15 +38,20 @@ module.exports = {
         'hero-glow': 'conic-gradient(from 180deg at 50% 50%, #3B82F6 0deg, #8B5CF6 180deg, #3B82F6 360deg)',
       },
       animation: {
-        "spin-fast": "spin 0.4s linear infinite",
+        "spin-fast": "spin 0.8s linear infinite",
+        "pulse-glow": "pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "fade-in-up": "fadeInUp 0.5s ease-out forwards",
       },
       keyframes: {
+        pulseGlow: {
+          "0%, 100%": { opacity: "1", boxShadow: "0 0 20px -5px rgba(59,130,246, 0.5)" },
+          "50%": { opacity: ".5", boxShadow: "0 0 0px 0px rgba(59,130,246, 0)" },
+        },
         fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        }
-      }
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
     },
   },
   plugins: [],

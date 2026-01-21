@@ -20,16 +20,8 @@ const items = [
 
 function Sidebar() {
   return (
-    <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-24 flex-col items-center py-8 z-50 border-r border-border bg-black/50 backdrop-blur-xl">
+    <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-24 flex-col bg-surface/50 backdrop-blur-2xl border-r border-border z-50 py-8">
       {/* Logo */}
-      <div className="mb-12">
-        <img
-          src={LogoImage.src}
-          alt="CG"
-          className="w-10 h-10 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
-        />
-      </div>
-
       {/* Nav Items */}
       <div className="flex-1 flex flex-col gap-6 w-full px-4">
         {items.map((item, i) => {

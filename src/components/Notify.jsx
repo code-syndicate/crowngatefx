@@ -35,59 +35,52 @@ export default function Notify() {
   }
 
   function handleReject() {
-    closeSelf();
-    if (onReject) {
-      onReject();
+    handleClose();
+    if (notify.onReject) {
+      notify.onReject();
     }
   }
 
   if (!show) return null;
 
   return (
-    <Overlay z={4}>
-      <div className="flex w-full flex-row justify-center items-center animate-slide-in-right">
-        <div className="w-full bg-background py-4 px-4">
+    <div className="fixed top-4 right-4 z-[100] animate-fade-in-up w-full max-w-sm px-4 lg:px-0">
+      <div className="relative w-full card-nebula p-6 border-l-4 border-l-accent shadow-[0_0_50px_-10px_rgba(59,130,246,0.3)]">
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="text-xl font-bold text-white">{title}</h3>
           {allowClose && (
-            <div className="flex flex-row justify-end items-center w-full">
-              <BsX
-                role="button"
-                className="text-3xl text-white hover:text-white/80 transition-flow cursor-pointer"
-                onClick={closeSelf}
-              />
-            </div>
+            <button
+              onClick={closeSelf}
+              className="text-text2 hover:text-white transition-colors"
+            >
+              <BsX className="text-xl" />
+            </button>
           )}
+        </div>
 
-          <p className="text-white text-lg font-semibold">{title}</p>
+        <p className="text-text2 mb-6 leading-relaxed text-sm">{content}</p>
 
-          <p className="text-white text-sm">{content}</p>
-
-          <div className="mt-4 flex flex-row justify-end items-center w-full">
-            {onReject && (
-              <button
-                className={cn(
-                  "px-4 py-2 rounded-md text-sm font-semibold text-white/80 hover:text-white/60 transition-flow disabled:cursor-not-allowed disabled:pointer-events-none "
-                )}
-                onClick={handleReject}
-                disabled={working}
-              >
-                {onRejectText}
-              </button>
-            )}
-
-            {onAccept && (
-              <button
-                className={cn(
-                  "px-4 py-2 rounded-md text-sm font-semibold text-white/80 hover:text-white/60 transition-flow ml-4 disabled:cursor-not-allowed disabled:pointer-events-none "
-                )}
-                onClick={handleAccept}
-                disabled={working}
-              >
-                {onAcceptText}
-              </button>
-            )}
-          </div>
+        <div className="flex justify-end gap-3">
+          {onReject && (
+            <button
+              onClick={handleReject}
+              disabled={working}
+              className="px-4 py-2 rounded-xl text-sm font-medium text-text2 hover:text-white hover:bg-white/5 transition-all disabled:opacity-50"
+            >
+              {onRejectText || "Cancel"}
+            </button>
+          )}
+          {onAccept && (
+            <button
+              onClick={handleAccept}
+              disabled={working}
+              className="btn-neon px-6 py-2 text-sm disabled:opacity-50"
+            >
+              {onAcceptText || "Proceed"}
+            </button>
+          )}
         </div>
       </div>
-    </Overlay>
+    </div>
   );
 }

@@ -119,8 +119,8 @@ function WithdrawalsList({ authUser }) {
 
   return (
     <div className="py-4">
-      <div className=" border border-white/50 bg-bg1 rounded-md self-stretch shadow-md shadow-white/20">
-        <div className="p-6 rounded-md space-y-6">
+      <div className="w-full">
+        <div className="space-y-6">
           {loading && (
             <div className="py-16">
               <Spinner size="small" />
@@ -159,129 +159,102 @@ function WithdrawalsList({ authUser }) {
             withdrawals &&
             !editObj.show &&
             withdrawals.length > 0 && (
-              <div className="flex flex-col justify-center items-center space-y-4">
-                <div className="flex flex-row justify-between items-center w-full">
-                  <p className="text-white text-lg"> Withdrawals </p>
-                  <p className="text-white text-lg"> {withdrawals.length} </p>
+              <div className="space-y-6">
+                <div className="flex justify-between items-center px-2">
+                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                    <span>Withdrawals</span>
+                    <span className="px-2 py-0.5 rounded-full bg-accent/20 text-accent text-xs">
+                      {withdrawals.length}
+                    </span>
+                  </h3>
                 </div>
 
-                <div className="flex flex-col justify-center items-center space-y-4 w-full">
-                  {/* Table starts  */}
-
-                  <div className="w-full  flex flex-col justify-center items-start rounded overflow-auto py-32 max-h-[500px]">
-                    <table className="w-full  bg-bg3 pt-20 shadow-md rounded table">
-                      <thead>
-                        <tr>
-                          <th className="py-6 px-4">S/N</th>
-                          <th className="py-6 px-4"> Client </th>
-                          <th className="py-6 px-4"> Amount </th>
-                          <th className="py-6 px-4">Payout Mode </th>
-                          <th className="py-6 px-4"> Status </th>
-
-                          <th className="py-6 px-4"> Date </th>
-                          <th className="py-6 px-4">Wallet</th>
-                          <th className="py-6 px-4"> Address</th>
-                          <th className="py-6 px-4">Bank Number </th>
-                          <th className="py-6 px-4">Bank Name</th>
-                          <th className="py-6 px-4">SWIFT</th>
-
-                          <th className="py-6 px-4 text-theme">Actions</th>
-
-                          {/* Add more headers as needed */}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {withdrawals.map((w, i) => (
-                          <tr
-                            key={i}
-                            className={`${
-                              i % 2 === 0 ? " bg-opacity-80 " : "  "
-                            } border-b border-white/20`}
-                          >
-                            <td className="py-4 px-4 text-center table-cell">
-                              {i + 1}
-                            </td>
-
-                            <td className="py-4 px-4 text-center table-cell">
-                              {w.user.email}
-                            </td>
-
-                            <td className="py-4 px-4 text-center table-cell">
-                              ${w.amount}
-                            </td>
-
-                            <td className="py-4 px-4 text-center table-cell">
-                              {w.payoutMode}
-                            </td>
-
-                            <td className="py-4 px-4 font-bold capitalize text-center table-cell">
-                              {w.status}
-                            </td>
-
-                            <td className="py-4 px-4 text-center table-cell">
-                              {new Date(w.date).toLocaleString()}
-                            </td>
-
-                            <td className="py-4 px-4 text-center table-cell">
-                              {w.wallet || "Nil"}
-                            </td>
-
-                            <td className="py-4 px-4 text-center table-cell">
-                              {w.address || "Nil"}
-                            </td>
-
-                            <td className="py-4 px-4 text-center table-cell">
-                              {w.bankNumber || "Nil"}
-                            </td>
-
-                            <td className="py-4 px-4 text-center table-cell">
-                              {w.bankName || "Nil"}
-                            </td>
-
-                            <td className="py-4 px-4 text-center table-cell">
-                              {w.swift || "Nil"}
-                            </td>
-
-                            <td className="py-4 px-4 text-center table-cell">
-                              {w.status === "pending" && (
-                                <span
-                                  onClick={async () => {
-                                    await approveWithdrawal(w._id);
-                                  }}
-                                  className="inline-bock  cursor-pointer px-1 text-theme hover:text-theme-hover"
-                                >
-                                  Approve
-                                </span>
+                <div className="w-full overflow-hidden card-nebula">
+                  <table className="w-full text-left border-collapse">
+                    <thead className="bg-white/5 text-text2 uppercase text-xs font-bold tracking-wider">
+                      <tr>
+                        <th className="py-4 px-6">S/N</th>
+                        <th className="py-4 px-6">Client</th>
+                        <th className="py-4 px-6">Amount</th>
+                        <th className="py-4 px-6">Mode</th>
+                        <th className="py-4 px-6">Status</th>
+                        <th className="py-4 px-6">Date</th>
+                        <th className="py-4 px-6">Details</th>
+                        <th className="py-4 px-6 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                      {withdrawals.map((w, i) => (
+                        <tr
+                          key={i}
+                          className="hover:bg-white/5 transition-colors duration-200"
+                        >
+                          <td className="py-4 px-6 text-text2 font-mono text-sm">
+                            {i + 1}
+                          </td>
+                          <td className="py-4 px-6 text-white text-sm">
+                            {w.user.email}
+                          </td>
+                          <td className="py-4 px-6 text-white font-bold">
+                            ${w.amount}
+                          </td>
+                          <td className="py-4 px-6 text-text2 text-sm capitalize">
+                            {w.payoutMode}
+                          </td>
+                          <td className="py-4 px-6">
+                            <span
+                              className={cn(
+                                "px-2 py-1 rounded-md text-xs font-bold uppercase",
+                                {
+                                  "bg-warning/20 text-warning":
+                                    w.status === "pending",
+                                  "bg-success/20 text-success":
+                                    w.status === "approved" ||
+                                    w.status === "completed",
+                                  "bg-danger/20 text-danger":
+                                    w.status === "declined",
+                                },
                               )}
-                              <span
-                                onClick={() => {
-                                  setEditObj({
-                                    show: true,
-                                    data: w,
-                                  });
-                                }}
-                                className="inline-bock cursor-pointer px-1 text-yellow-500 hover:text-yellow-400"
+                            >
+                              {w.status}
+                            </span>
+                          </td>
+                          <td className="py-4 px-6 text-text2 text-xs">
+                            {new Date(w.date).toLocaleDateString()}
+                          </td>
+                          <td className="py-4 px-6 text-xs text-text2 max-w-[200px] truncate">
+                            {w.wallet
+                              ? `${w.wallet}: ${w.address}`
+                              : `${w.bankName} - ${w.bankNumber}`}
+                          </td>
+                          <td className="py-4 px-6 text-right space-x-2">
+                            {w.status === "pending" && (
+                              <button
+                                onClick={() => approveWithdrawal(w._id)}
+                                className="text-xs bg-success/10 text-success hover:bg-success/20 px-3 py-1.5 rounded-lg transition-colors font-bold uppercase tracking-wide"
                               >
-                                Edit
-                              </span>{" "}
-                              <span
-                                onClick={async () => {
-                                  await deleteWithdrawal(w._id);
-                                }}
-                                className="inline-bock  cursor-pointer px-1 text-red-500 hover:text-red-400"
-                              >
-                                Delete
-                              </span>
-                            </td>
-
-                            {/* Add more data rows as needed */}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  {/* Table ends  */}
+                                Approve
+                              </button>
+                            )}
+                            <button
+                              onClick={() =>
+                                setEditObj({ show: true, data: w })
+                              }
+                              className="text-xs bg-accent/10 text-accent hover:bg-accent/20 px-3 py-1.5 rounded-lg transition-colors font-bold uppercase tracking-wide"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => deleteWithdrawal(w._id)}
+                              className="text-xs bg-danger/10 text-danger hover:bg-danger/20 px-3 py-1.5 rounded-lg transition-colors font-bold uppercase tracking-wide"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             )}

@@ -68,13 +68,17 @@ const user = isAuth.user;
       src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
     ></script>
 
-    <Header user={user} client:load />
+    <div className="hidden lg:block">
+      <Header client:load user={isAuth} />
+    </div>
+    
+    <div className="lg:ml-24 min-h-screen pb-24 lg:pb-0">
+      <Notify client:load />
+      <WalletDetails client:load />
+      <WithdrawalPopup user={user} client:load />
 
-    <Notify client:load />
-    <WalletDetails client:load />
-    <WithdrawalPopup user={user} client:load />
-
-    <slot />
+      <slot />
+    </div>
     
     {/* Desktop Sidebar */}
     <Sidebar client:only="react" />

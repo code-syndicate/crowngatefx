@@ -7,7 +7,7 @@ function Header({ user }) {
     <>
       <div id="google_translate_element" className="hidden"></div>
 
-      <header className="fixed top-0 left-0 right-0 z-40 px-4 py-4 lg:pl-28 transition-all duration-300">
+      <header className="fixed top-0 right-0 z-40 px-4 py-4 w-full lg:w-[calc(100%-6rem)] transition-all duration-300">
         <div className="mx-auto max-w-7xl bg-surface/50 backdrop-blur-xl border border-border rounded-full shadow-lg px-6 py-3 flex items-center justify-between">
           {/* Mobile Logo / Title */}
           <div className="flex items-center gap-3">

@@ -1,6 +1,4 @@
-import { BsX } from "react-icons/bs";
-import Overlay from "./Overlay";
-import { $walletQr } from "../lib/atoms";
+import { BsX, BsShieldLock, BsBank, BsWallet2 } from "react-icons/bs";
 import { useStore } from "@nanostores/react";
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -13,73 +11,70 @@ import {
   $withdrawPopup,
   setNotifyMessage,
 } from "../lib/atoms";
-import { startTransition } from "react";
+import cn from "classnames";
 
-const schema1 = Yup.object().shape({
-  bankName: Yup.string()
-    .required("Bank name is required")
-    .min(3, "Must be 3 characters or more")
-    .max(128, "Must be 128 characters or less"),
-
-  swift: Yup.string()
-    .required("SWIFT is required")
-    .min(3, "Must be 3 characters or more"),
-
-  channel: Yup.string()
-    .required("Payout Mode is required")
-    .oneOf(["bank", "crypto"], "Invalid payout mode"),
-
-  bankNumber: Yup.number()
-    .positive("Bank Number must be a positive number")
-    .integer(" Bank Number must be an integer")
-    .required("Bank Number is required")
-    .typeError("Bank Number must be a number"),
-
+const schema = Yup.object().shape({
   amount: Yup.number()
     .positive("Amount must be a positive number")
-    .moreThan(100, "Amount must be greater than $100")
+    .moreThan(10, "Amount must be at least $10")
     .required("Amount is required")
     .typeError("Amount must be a number"),
-
-  email: Yup.string()
-    .email(" Invalid email address ")
-    .required("Email is required"),
-});
-
-const schema2 = Yup.object().shape({
-  address: Yup.string()
-    .required("Address is required")
-    .min(20, "Must be 20 characters or more"),
-
-  channel: Yup.string()
-    .required("Payout Mode is required")
-    .oneOf(["bank", "crypto"], "Invalid payout mode"),
-
-  wallet: Yup.string()
-    .required("Wallet is required")
-    .oneOf(["bitcoin", "ethereum"], "Invalid wallet"),
-
-  amount: Yup.number()
-    .positive("Amount must be a positive number")
-    .moreThan(100, "Amount must be greater than $100")
-    .required("Amount is required")
-    .typeError("Amount must be a number"),
-
-  email: Yup.string()
-    .email(" Invalid email address ")
-    .required("Email is required"),
+  method: Yup.string().required(),
+  // Crypto Validations
+  address: Yup.string().when("method", {
+    is: "crypto",
+    then: (schema) =>
+      schema.required("Wallet address is required").min(20, "Invalid address"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+  // Bank Validations
+  bankName: Yup.string().when("method", {
+    is: "bank",
+    then: (schema) => schema.required("Bank Name is required"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+  accountName: Yup.string().when("method", {
+    is: "bank",
+    then: (schema) => schema.required("Account Name is required"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+  bankNumber: Yup.string().when("method", {
+    is: "bank",
+    then: (schema) => schema.required("Account Number is required"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+  swift: Yup.string().when("method", {
+    is: "bank",
+    then: (schema) => schema.required("SWIFT/Sort Code is required"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
 });
 
 export default function WithdrawPopup({ user }) {
   const [loading, setLoading] = useState(false);
-  const [isBank, setIsBank] = useState(true);
   const { show } = useStore($withdrawPopup);
+  const wallets = config.wallets || [
+    { id: "bitcoin", name: "Bitcoin" },
+    { id: "ethereum", name: "Ethereum" },
+    { id: "usdt", name: "USDT (TRC20)" },
+  ];
+  const [selectedWallet, setSelectedWallet] = useState(wallets[0]);
+  const [activeTab, setActiveTab] = useState("crypto");
 
   async function withdrawReq(values) {
+    const payload = {
+      ...values,
+      channel: values.method,
+      wallet:
+        values.method === "crypto"
+          ? selectedWallet?.id || "bitcoin"
+          : undefined,
+    };
+
     const res = await fetchUtil({
       url: makeUrl(config.apiEndpoints.withdraw),
       method: "POST",
-      body: JSON.stringify(values),
+      body: JSON.stringify(payload),
     });
 
     setWithdrawPopup({
@@ -112,17 +107,14 @@ export default function WithdrawPopup({ user }) {
       setNotifyMessage({
         show: true,
         title: "Insufficient funds",
-        content: "You do not have enought balance to initiate this withdrawal.",
+        content: "You do not have enough balance to initiate this withdrawal.",
         allowclose: true,
       });
-
       return;
     }
 
     setLoading(true);
-
     await withdrawReq(values);
-
     setLoading(false);
   }
 
@@ -137,208 +129,236 @@ export default function WithdrawPopup({ user }) {
   if (!show) return null;
 
   return (
-    <Overlay z={3}>
-      <div className="flex w-full flex-row justify-center items-center animate-slide-in-right">
-        <div className="w-full bg-background rounded-md space-y-4 py-4 px-4">
-          <div className="flex flex-row justify-end items-center w-full">
-            <BsX
-              role="button"
-              className="text-3xl text-white hover:text-white/80 transition-flow cursor-pointer"
-              onClick={closeSelf}
-            />
-          </div>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity"
+        onClick={closeSelf}
+      ></div>
 
-          <h2>
-            <span className="text-lg lg:text-2xl text-white font-semibold">
-              Fill in your details to withdraw
-            </span>
-          </h2>
+      {/* Modal */}
+      <div className="relative w-full max-w-lg card-nebula p-8 animate-fade-in-up max-h-[90vh] overflow-y-auto custom-scrollbar">
+        <button
+          onClick={closeSelf}
+          className="absolute top-4 right-4 text-text2 hover:text-white transition-colors"
+        >
+          <BsX className="text-2xl" />
+        </button>
 
-          <Formik
-            validationSchema={isBank ? schema1 : schema2}
-            initialValues={{
-              email: user?.email,
-              wallet: "bitcoin",
-              address: "",
-              bankName: "",
-              bankNumber: "",
-              swift: "",
-              channel: "bank",
-            }}
-            onSubmit={handleSubmit}
+        <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+          <BsShieldLock className="text-accent" />
+          <span>Withdraw Funds</span>
+        </h2>
+
+        {/* Tabs */}
+        <div className="flex p-1 bg-surface2/50 rounded-xl mb-6 backdrop-blur-sm border border-white/5">
+          <button
+            className={cn(
+              "flex-1 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300",
+              activeTab === "crypto"
+                ? "bg-accent text-white shadow-lg shadow-accent/20"
+                : "text-text2 hover:text-white hover:bg-white/5",
+            )}
+            onClick={() => setActiveTab("crypto")}
           >
-            {({ isValid, values }) => {
-              // console.log(errors);
-
-              if (values.channel === "bank" && !isBank) {
-                startTransition(() => {
-                  setIsBank(true);
-                });
-              }
-
-              if (values.channel === "crypto" && isBank) {
-                startTransition(() => {
-                  setIsBank(false);
-                });
-              }
-
-              return (
-                <Form className="grid grid-cols-2 gap-x-8 gap-y-4 w-full justify-center items-center  py-6 ">
-                  <div className="w-full">
-                    <label className="text-base text-left text-white capitalize pb-2 block">
-                      Email Address
-                    </label>
-                    <Field
-                      readOnly
-                      type="email"
-                      disabled
-                      name="email"
-                      className=" field pr-4 w-full "
-                      placeholder="Email Address"
-                    />
-
-                    <p className="text-red-400 text-sm pt-2">
-                      <ErrorMessage name="email" />
-                    </p>
-                  </div>
-
-                  <div className="w-full">
-                    <label className="text-base text-left text-white capitalize pb-2 block">
-                      Amount
-                    </label>
-                    <Field
-                      type="text"
-                      inputMode="numeric"
-                      name="amount"
-                      className=" field pr-4  w-full "
-                    />
-
-                    <p className="text-red-400 text-sm pt-2">
-                      <ErrorMessage name="amount" />
-                    </p>
-                  </div>
-                  <div className="w-full">
-                    <label className="text-base text-left text-white capitalize pb-2 block">
-                      Payout Mode
-                    </label>
-                    <Field
-                      type="text"
-                      as="select"
-                      name="channel"
-                      className=" field pr-4  w-full "
-                    >
-                      <option value="bank"> Bank </option>
-                      <option value="crypto"> Crypto Wallet </option>
-                    </Field>
-
-                    <p className="text-red-400 text-sm pt-2">
-                      <ErrorMessage name="channel" />
-                    </p>
-                  </div>
-
-                  {values.channel === "bank" && (
-                    <>
-                      <div className="w-full">
-                        <label className="text-base text-left text-white capitalize pb-2 block">
-                          Bank Name
-                        </label>
-                        <Field
-                          type="text"
-                          name="bankName"
-                          className=" field pr-4  w-full "
-                        />
-
-                        <p className="text-red-400 text-sm pt-2">
-                          <ErrorMessage name="bankName" />
-                        </p>
-                      </div>
-
-                      <div className="w-full">
-                        <label className="text-base text-left text-white capitalize pb-2 block">
-                          Bank Number
-                        </label>
-                        <Field
-                          type="text"
-                          name="bankNumber"
-                          className=" field pr-4  w-full "
-                        />
-
-                        <p className="text-red-400 text-sm pt-2">
-                          <ErrorMessage name="bankNumber" />
-                        </p>
-                      </div>
-
-                      <div className="w-full">
-                        <label className="text-base text-left text-white capitalize pb-2 block">
-                          SWIFT
-                        </label>
-                        <Field
-                          type="text"
-                          name="swift"
-                          className=" field pr-4 w-full "
-                        />
-
-                        <p className="text-red-400 text-sm pt-2">
-                          <ErrorMessage name="swift" />
-                        </p>
-                      </div>
-                    </>
-                  )}
-
-                  {values.channel === "crypto" && (
-                    <>
-                      <div className="w-full">
-                        <label className="text-base text-left text-white capitalize pb-2 block">
-                          Wallet
-                        </label>
-                        <Field
-                          type="text"
-                          as="select"
-                          name="wallet"
-                          className=" field pr-4  w-full "
-                        >
-                          <option value="bitcoin"> Bitcoin </option>
-                          <option value="ethereum"> Ethereum </option>
-                        </Field>
-
-                        <p className="text-red-400 text-sm pt-2">
-                          <ErrorMessage name="wallet" />
-                        </p>
-                      </div>
-
-                      <div className="w-full">
-                        <label className="text-base text-left text-white capitalize pb-2 block">
-                          Address
-                        </label>
-                        <Field
-                          type="text"
-                          name="address"
-                          className=" field pr-4  w-full "
-                        />
-
-                        <p className="text-red-400 text-sm pt-2">
-                          <ErrorMessage name="address" />
-                        </p>
-                      </div>
-                    </>
-                  )}
-
-                  <div className="w-[80%] mt-8">
-                    <button
-                      disabled={!isValid || loading}
-                      className="bg-text1/80 hover:bg-text1/90 transition-flow text-bg1 px-8 disabled:opacity-40 disabled:pointer-events-none w-full py-2 text-center rounded outline-none "
-                      type="submit"
-                      role="form"
-                    >
-                      {loading ? <Spinner size="tiny" /> : "Submit"}
-                    </button>
-                  </div>
-                </Form>
-              );
-            }}
-          </Formik>
+            <BsWallet2 className="text-lg" />
+            <span>Crypto Wallet</span>
+          </button>
+          <button
+            className={cn(
+              "flex-1 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300",
+              activeTab === "bank"
+                ? "bg-accent text-white shadow-lg shadow-accent/20"
+                : "text-text2 hover:text-white hover:bg-white/5",
+            )}
+            onClick={() => setActiveTab("bank")}
+          >
+            <BsBank className="text-lg" />
+            <span>Bank Transfer</span>
+          </button>
         </div>
+
+        <Formik
+          validationSchema={schema}
+          initialValues={{
+            amount: "",
+            address: "",
+            method: activeTab,
+            bankName: "",
+            accountName: "",
+            bankNumber: "",
+            swift: "",
+          }}
+          enableReinitialize={true}
+          onSubmit={handleSubmit}
+        >
+          {({ isValid, values, setFieldValue }) => {
+            // Update method in formik when tab changes
+            if (values.method !== activeTab) {
+              setFieldValue("method", activeTab);
+            }
+
+            return (
+              <Form className="space-y-6">
+                {/* Amount Field (Common) */}
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs font-bold text-text2 uppercase tracking-widest ml-1">
+                    Amount
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text2">
+                      $
+                    </span>
+                    <Field
+                      type="number"
+                      name="amount"
+                      className="input-liquid pl-8"
+                      placeholder="0.00"
+                    />
+                  </div>
+                  <ErrorMessage
+                    name="amount"
+                    component="p"
+                    className="text-danger text-xs pl-1 font-medium"
+                  />
+                  <p className="text-xs text-text3 text-right">
+                    Available: $
+                    {(
+                      user.account.balance + user.account.bonus
+                    ).toLocaleString()}
+                  </p>
+                </div>
+
+                {/* Crypto Fields */}
+                {activeTab === "crypto" && (
+                  <>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-bold text-text2 uppercase tracking-widest ml-1">
+                        Select Network
+                      </label>
+                      <div className="grid grid-cols-2 gap-3">
+                        {wallets.map((w) => (
+                          <button
+                            type="button"
+                            key={w.id}
+                            onClick={() => setSelectedWallet(w)}
+                            className={cn(
+                              "flex items-center justify-center py-3 px-2 rounded-xl border transition-all duration-300 text-sm font-bold",
+                              selectedWallet?.id === w.id
+                                ? "bg-accent/20 border-accent text-white shadow-[0_0_15px_-5px_rgba(59,130,246,0.5)]"
+                                : "bg-surface2/50 border-transparent text-text2 hover:bg-surface2 hover:text-white",
+                            )}
+                          >
+                            {w.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-bold text-text2 uppercase tracking-widest ml-1">
+                        Wallet Address
+                      </label>
+                      <Field
+                        type="text"
+                        name="address"
+                        className="input-liquid"
+                        placeholder={`Enter your ${selectedWallet?.name || "Crypto"} address`}
+                      />
+                      <ErrorMessage
+                        name="address"
+                        component="p"
+                        className="text-danger text-xs pl-1 font-medium"
+                      />
+                    </div>
+                  </>
+                )}
+
+                {/* Bank Fields */}
+                {activeTab === "bank" && (
+                  <div className="space-y-4">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-bold text-text2 uppercase tracking-widest ml-1">
+                        Bank Name
+                      </label>
+                      <Field
+                        type="text"
+                        name="bankName"
+                        className="input-liquid"
+                        placeholder="e.g. Chase Bank"
+                      />
+                      <ErrorMessage
+                        name="bankName"
+                        component="p"
+                        className="text-danger text-xs pl-1 font-medium"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-bold text-text2 uppercase tracking-widest ml-1">
+                        Account Name
+                      </label>
+                      <Field
+                        type="text"
+                        name="accountName"
+                        className="input-liquid"
+                        placeholder="Beneficiary Name"
+                      />
+                      <ErrorMessage
+                        name="accountName"
+                        component="p"
+                        className="text-danger text-xs pl-1 font-medium"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-bold text-text2 uppercase tracking-widest ml-1">
+                        Account Number
+                      </label>
+                      <Field
+                        type="text"
+                        name="bankNumber"
+                        className="input-liquid"
+                        placeholder="Account / IBAN Number"
+                      />
+                      <ErrorMessage
+                        name="bankNumber"
+                        component="p"
+                        className="text-danger text-xs pl-1 font-medium"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-bold text-text2 uppercase tracking-widest ml-1">
+                        SWIFT / Sort Code
+                      </label>
+                      <Field
+                        type="text"
+                        name="swift"
+                        className="input-liquid"
+                        placeholder="Routing / SWIFT Code"
+                      />
+                      <ErrorMessage
+                        name="swift"
+                        component="p"
+                        className="text-danger text-xs pl-1 font-medium"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <button
+                  disabled={!isValid || loading}
+                  className="btn-neon w-full py-4 text-base"
+                  type="submit"
+                >
+                  {loading ? <Spinner size="small" /> : "Confirm Withdrawal"}
+                </button>
+              </Form>
+            );
+          }}
+        </Formik>
       </div>
-    </Overlay>
+    </div>
   );
 }

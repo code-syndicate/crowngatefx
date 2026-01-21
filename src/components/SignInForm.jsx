@@ -83,9 +83,7 @@ function SignInForm() {
                   <h1 className="text-3xl font-bold text-white tracking-tight mb-2">
                     Welcome Back
                   </h1>
-                  <p className="text-text2">
-                    Enter your credentials to access the terminal
-                  </p>
+                  <p className="text-text2">Sign in to manage your portfolio</p>
                 </div>
               </div>
 
@@ -140,18 +138,18 @@ function SignInForm() {
                   type="submit"
                   role="form"
                 >
-                  {loading ? <Spinner size="tiny" /> : "Initiate Session"}
+                  {loading ? <Spinner size="tiny" /> : "Sign In"}
                 </button>
               </div>
 
               <div className="text-center pt-2">
                 <p className="text-sm text-text3">
-                  New to the platform?{" "}
+                  Don't have an account?{" "}
                   <a
                     className="text-accent hover:text-accent-glow font-medium transition-colors"
                     href="/sign-up"
                   >
-                    Create Access ID
+                    Create account
                   </a>
                 </p>
               </div>

@@ -106,11 +106,9 @@ function SignUpForm() {
                 </div>
                 <div>
                   <h1 className="text-3xl font-bold text-white tracking-tight mb-2">
-                    Create Access ID
+                    Create Account
                   </h1>
-                  <p className="text-text2 text-sm">
-                    Join the next generation of trading
-                  </p>
+                  <p className="text-text2 text-sm">Join CrownGate FX today</p>
                 </div>
               </div>
 
@@ -193,13 +191,13 @@ function SignUpForm() {
                   type="submit"
                   role="form"
                 >
-                  {loading ? <Spinner size="tiny" /> : "Register Account"}
+                  {loading ? <Spinner size="tiny" /> : "Sign Up"}
                 </button>
               </div>
 
               <div className="text-center pt-2">
                 <p className="text-sm text-text3">
-                  Already have an access ID?{" "}
+                  Already have an account?{" "}
                   <a
                     className="text-accent hover:text-accent-glow font-medium transition-colors"
                     href="/sign-in"

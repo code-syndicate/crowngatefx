@@ -35,48 +35,46 @@ function SettingsActions({ user }) {
   }
 
   return (
-    <div className="col-span-6 lg:col-span-4 bg-bg3 py-4 px-4 rounded-md">
-      <div className="flex flex-row justify-start space-x-4 items-center overflow-x-auto">
-        <h3
+    <div className="col-span-6 lg:col-span-4 card-nebula p-6">
+      <div className="flex flex-row justify-start space-x-2 items-center overflow-x-auto p-1 bg-surface2/50 backdrop-blur-md rounded-2xl mb-8 border border-white/5 w-fit">
+        <button
           onClick={selectActive(0)}
-          className={
-            "text-base lg:hidden lg:text-lg cursor-pointer border-b inline-block pb-1 " +
-            cn({
-              " text-white/40  border-white/20 hover:text-white/60 hover:border-white/40 transition-flow  ":
-                active !== 0,
-              " text-white border-white ": active == 0,
-            })
-          }
+          className={cn(
+            "px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300",
+            {
+              "bg-accent text-white shadow-lg shadow-accent/20": active === 0,
+              "text-text2 hover:text-white hover:bg-white/5": active !== 0,
+            },
+          )}
         >
-          Profile
-        </h3>
+          My Profile
+        </button>
 
-        <h3
+        <button
           onClick={selectActive(1)}
-          className={
-            "text-base cursor-pointer lg:text-lg border-b inline-block pb-1 " +
-            cn({
-              " text-white/40  border-white/20 hover:text-white/60 hover:border-white/40 transition-flow ":
-                active !== 1,
-              " text-white border-white ": active == 1,
-            })
-          }
+          className={cn(
+            "px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300",
+            {
+              "bg-accent text-white shadow-lg shadow-accent/20": active === 1,
+              "text-text2 hover:text-white hover:bg-white/5": active !== 1,
+            },
+          )}
         >
-          Edit profile
-        </h3>
-        <h3
+          Edit Profile
+        </button>
+
+        <button
           onClick={selectActive(2)}
-          className={
-            "text-base lg:text-lg cursor-pointer  border-b inline-block pb-1 " +
-            cn({
-              " text-white/40  border-white/20 hover:text-white/60 hover:border-white/40 transition-flow":
-                active !== 2,
-              " text-white border-white ": active == 2,
-            })
-          }
+          className={cn(
+            "px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300",
+            {
+              "bg-accent text-white shadow-lg shadow-accent/20": active === 2,
+              "text-text2 hover:text-white hover:bg-white/5": active !== 2,
+            },
+          )}
         >
           Notifications
-        </h3>
+        </button>
       </div>
 
       <div
