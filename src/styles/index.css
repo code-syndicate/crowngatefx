@@ -88,24 +88,38 @@
     @apply transition-all   duration-[400];
   }
 
-  /* Glassmorphism Utilities */
-  .glass-panel {
-    @apply bg-bg2/30 backdrop-blur-md border border-white/5 shadow-xl;
+  /* "Nebula" Design System Utilities */
+
+  body {
+    @apply bg-bg1 text-text1 selection:bg-accent/30 selection:text-white;
   }
 
-  .glass-input {
-    @apply bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-theme/50 focus:ring-1 focus:ring-theme/50 backdrop-blur-sm;
+  /* Ultra-Modern Glass Card */
+  .card-nebula {
+    @apply bg-surface/50 backdrop-blur-2xl border border-border rounded-3xl shadow-2xl;
   }
 
-  .btn-primary {
-    @apply inline-flex border border-theme/20 justify-center items-center space-x-4 bg-theme/10 text-theme rounded-md px-6 py-3 hover:bg-theme hover:text-white hover:scale-[1.02] transform transition-flow disabled:opacity-40 disabled:pointer-events-none disabled:cursor-not-allowed shadow-lg shadow-theme/10;
+  /* Glowing Interactive Card */
+  .card-glow {
+    @apply relative overflow-hidden bg-bg2 border border-white/5 rounded-3xl transition-all duration-300 hover:border-accent/40 hover:shadow-[0_0_30px_-10px_rgba(59,130,246,0.15)];
   }
 
-  .btn-basic {
-    @apply inline-flex text-white/70 justify-center items-center space-x-4 bg-white/5 border border-white/5 px-6 py-3 hover:bg-white/10 hover:text-white transition-flow disabled:opacity-40 disabled:pointer-events-none disabled:cursor-not-allowed backdrop-blur-sm;
+  /* Liquid Input Field */
+  .input-liquid {
+    @apply bg-surface2 border border-transparent text-text1 rounded-2xl px-5 py-4 w-full outline-none transition-all duration-300 focus:bg-black focus:border-accent/50 focus:shadow-[0_0_0_4px_rgba(59,130,246,0.1)] placeholder-text3 font-medium;
   }
 
-  .field {
-    @apply rounded-lg border text-sm transition-flow outline-none py-3 px-4 w-full glass-input;
+  /* Neon Button */
+  .btn-neon {
+    @apply relative overflow-hidden bg-accent text-white font-semibold rounded-2xl px-8 py-4 transition-all duration-300 hover:brightness-110 active:scale-95 shadow-[0_0_20px_-5px_rgba(59,130,246,0.4)] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-3;
+  }
+
+  .btn-ghost {
+    @apply bg-surface text-text2 font-medium rounded-2xl px-6 py-4 hover:bg-surface2 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-3;
+  }
+
+  /* Text Gradients */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-text2;
   }
 }

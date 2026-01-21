@@ -1,138 +1,75 @@
-import { BsSpeedometer, BsX } from "react-icons/bs";
-import { AiOutlineSetting, AiOutlineWallet } from "react-icons/ai";
-import { MdCurrencyExchange, MdLogout } from "react-icons/md";
+import {
+  BsSpeedometer,
+  BsGrid,
+  BsWallet2,
+  BsPerson,
+  BsGear,
+} from "react-icons/bs";
+import { MdLogout } from "react-icons/md";
 import { useStore } from "@nanostores/react";
-import { $sidebar, setShowSidebar } from "../lib/atoms";
-import Overlay from "./Overlay";
+import { $sidebar } from "../lib/atoms";
 import LogoImage from "../assets/logo.png";
 import cn from "classnames";
 
 const items = [
-  {
-    title: "Dashboard",
-    icon: BsSpeedometer,
-    link: "/dashboard",
-  },
-  {
-    title: "Exchanges",
-    icon: MdCurrencyExchange,
-    link: "/exchanges",
-  },
-  {
-    title: "Wallets",
-    icon: AiOutlineWallet,
-    link: "/wallets",
-  },
-  {
-    title: "Settings",
-    icon: AiOutlineSetting,
-    link: "/settings",
-  },
-  {
-    title: "Logout",
-    icon: MdLogout,
-    link: "/log-out",
-  },
+  { title: "Dashboard", icon: BsSpeedometer, link: "/dashboard" },
+  { title: "Trade", icon: BsGrid, link: "/exchanges" },
+  { title: "Wallet", icon: BsWallet2, link: "/wallets" },
+  { title: "Profile", icon: BsPerson, link: "/settings" },
 ];
 
 function Sidebar() {
-  const sidebarState = useStore($sidebar);
-
   return (
-    <>
-      <aside
-        className={
-          "w-[80%] hidden md:flex md:w-[20%] lg:w-[20%] pt-10 px-4 max-w-[300px] min-h-screen fixed left-0 top-0 bottom-0 flex-col justify-start items-center space-y-8 bg-black/40 backdrop-blur-xl border-r border-white/5 z-50"
-        }
-      >
-        <div className="w-full flex justify-center pb-6">
-          <img src={LogoImage.src} alt="CrownGate FX" className="w-32" />
-        </div>
+    <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-24 flex-col items-center py-8 z-50 border-r border-border bg-black/50 backdrop-blur-xl">
+      {/* Logo */}
+      <div className="mb-12">
+        <img
+          src={LogoImage.src}
+          alt="CG"
+          className="w-10 h-10 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+        />
+      </div>
 
-        <div className="w-full space-y-2">
-          {items.map((v, i) => {
-            const Icon = v.icon;
-            const isActive = location.pathname === v.link;
+      {/* Nav Items */}
+      <div className="flex-1 flex flex-col gap-6 w-full px-4">
+        {items.map((item, i) => {
+          const Icon = item.icon;
+          const isActive = location.pathname === item.link;
 
-            return (
-              <a
-                href={v.link}
-                key={i}
-                className={cn(
-                  "w-full font-medium text-left px-4 py-3 rounded-xl flex flex-row justify-start space-x-3 items-center transition-all duration-300 group",
-                  {
-                    "bg-theme/10 text-theme": isActive,
-                    "text-text1/70 hover:bg-white/5 hover:text-white":
-                      !isActive,
-                  },
-                )}
-              >
-                <Icon
-                  className={cn("text-xl transition-colors", {
-                    "text-theme": isActive,
-                    "text-text1/50 group-hover:text-white": !isActive,
-                  })}
-                />
-                <span> {v.title} </span>
-                {isActive && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-theme"></div>
-                )}
-              </a>
-            );
-          })}
-        </div>
-      </aside>
-
-      {sidebarState.show && (
-        <Overlay z={3}>
-          <div className="flex w-full flex-row justify-center items-center animate-slide-in-left">
-            <aside
-              className={
-                "w-[80%] lg:w-[25%] px-6 pt-12 max-w-[300px] min-h-screen fixed left-0 top-0 bottom-0 flex flex-col justify-start items-center space-y-8 bg-bg2/95 backdrop-blur-xl border-r border-white/10 z-50"
-              }
+          return (
+            <a
+              key={i}
+              href={item.link}
+              className={cn(
+                "relative group flex items-center justify-center p-4 rounded-2xl transition-all duration-300",
+                {
+                  "bg-accent text-white shadow-[0_0_20px_-5px_rgba(59,130,246,0.5)]":
+                    isActive,
+                  "text-text2 hover:bg-white/10 hover:text-white": !isActive,
+                },
+              )}
+              title={item.title}
             >
-              <div className="lg:hidden absolute top-4 right-4">
-                <BsX
-                  className="text-text1/80 text-3xl cursor-pointer hover:text-white transition-colors"
-                  onClick={() => setShowSidebar(false)}
-                />
-              </div>
+              <Icon className="text-xl" />
+              {isActive && (
+                <span className="absolute -right-2 top-1/2 -translate-y-1/2 w-1 h-8 bg-accent rounded-l-full blur-[2px] opacity-50"></span>
+              )}
+            </a>
+          );
+        })}
+      </div>
 
-              <div className="">
-                <img src={LogoImage.src} alt="Logo" className="w-40" />
-              </div>
-
-              <div className="w-full space-y-2">
-                {items.map((v, i) => {
-                  const Icon = v.icon;
-                  const isActive = location.pathname === v.link;
-
-                  return (
-                    <a
-                      href={v.link}
-                      key={i}
-                      className={cn(
-                        "w-full font-medium text-left px-4 py-3 rounded-xl flex flex-row justify-start space-x-3 items-center transition-all duration-300 group",
-                        {
-                          "bg-theme/10 text-theme": isActive,
-                          "text-text1/70 hover:bg-white/5 hover:text-white":
-                            !isActive,
-                        },
-                      )}
-                    >
-                      <Icon
-                        className={cn("text-xl", { "text-theme": isActive })}
-                      />
-                      <span> {v.title} </span>
-                    </a>
-                  );
-                })}
-              </div>
-            </aside>
-          </div>
-        </Overlay>
-      )}
-    </>
+      {/* Bottom Actions */}
+      <div className="mt-auto flex flex-col gap-4 w-full px-4">
+        <a
+          href="/log-out"
+          className="flex items-center justify-center p-4 rounded-2xl text-text2 hover:text-danger hover:bg-danger/10 transition-all duration-300"
+          title="Logout"
+        >
+          <MdLogout className="text-xl" />
+        </a>
+      </div>
+    </aside>
   );
 }
 

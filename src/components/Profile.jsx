@@ -5,7 +5,7 @@ function Profile({ user }) {
     <div className="col-span-6 lg:col-span-2 flex flex-col justify-start items-center space-y-8 bg-bg3 py-8 rounded-md lg:min-h-[500px]">
       <div className="w-full self-center flex flex-col justify-center items-center">
         <img
-          src={AvatarImage}
+          src={AvatarImage.src}
           className="w-1/5 rounded-full border border-white/20"
           alt="avatar"
         />
@@ -25,7 +25,7 @@ function Profile({ user }) {
       </div>
 
       <ul className="space-y-4  flex flex-col justify-center items-start">
-        <p className="text-yellow-600 my-2"> Actions </p>
+        <p className="text-text2 font-medium my-2"> Actions </p>
 
         <a
           className="text-sm text-white/80 hover:text-white transition-flow hover:underline block w-full"

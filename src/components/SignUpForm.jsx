@@ -78,7 +78,7 @@ function SignUpForm() {
   }
 
   return (
-    <div className="min-h-screen bg-[url('/bg-premium.png')] bg-cover bg-center flex flex-col justify-center items-center py-12 px-4">
+    <div className="min-h-screen bg-bg1 flex flex-col justify-center items-center py-12 px-4">
       <Formik
         validationSchema={schema}
         initialValues={{
