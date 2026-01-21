@@ -1,9 +1,33 @@
 import { setWithdrawPopup } from "../lib/atoms";
 import { BsWallet2, BsGraphUpArrow, BsCashCoin } from "react-icons/bs";
 import { BiTrendingUp } from "react-icons/bi";
+import { useState, useEffect } from "react";
 
 function Dash({ auth }) {
   const account = auth.user.account;
+
+  // Dynamic chart data
+  const [chartData, setChartData] = useState([
+    40, 65, 30, 80, 55, 90, 70, 45, 60, 75, 50, 85, 60, 72, 48, 88,
+  ]);
+  const [percentChange, setPercentChange] = useState(2.4);
+  const [isPositive, setIsPositive] = useState(true);
+
+  // Update chart data periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Generate new random data
+      const newData = chartData.map(() => Math.floor(Math.random() * 60) + 30);
+      setChartData(newData);
+
+      // Update percentage change
+      const newChange = (Math.random() * 5 - 1).toFixed(2);
+      setPercentChange(Math.abs(newChange));
+      setIsPositive(parseFloat(newChange) >= 0);
+    }, 4000); // Update every 4 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   function withdraw() {
     setWithdrawPopup({
@@ -103,26 +127,33 @@ function Dash({ auth }) {
                 <BsGraphUpArrow className="text-accent" />
                 <span>Market Performance</span>
               </h3>
-              <p className="text-text3 text-xs mt-1">Last 24 hours</p>
+              <p className="text-text3 text-xs mt-1">Live • Updates every 4s</p>
             </div>
             <div className="text-right">
-              <p className="text-success text-sm font-bold">+2.4%</p>
+              <p
+                className={`text-sm font-bold transition-colors ${isPositive ? "text-success" : "text-danger"}`}
+              >
+                {isPositive ? "+" : "-"}
+                {percentChange}%
+              </p>
               <p className="text-text3 text-xs">vs yesterday</p>
             </div>
           </div>
 
           {/* Chart Bars */}
           <div className="h-32 lg:h-40 w-full flex items-end gap-1 lg:gap-1.5">
-            {[
-              40, 65, 30, 80, 55, 90, 70, 45, 60, 75, 50, 85, 60, 72, 48, 88,
-            ].map((h, i) => (
+            {chartData.map((h, i) => (
               <div
                 key={i}
                 className="flex-1 rounded-t-sm bg-accent/20 hover:bg-accent/30 transition-all cursor-pointer group relative"
                 style={{ height: "100%" }}
               >
                 <div
-                  className="absolute bottom-0 w-full bg-gradient-to-t from-accent to-accent/70 rounded-t-sm transition-all group-hover:from-white group-hover:to-accent"
+                  className={`absolute bottom-0 w-full rounded-t-sm transition-all duration-500 ${
+                    isPositive
+                      ? "bg-gradient-to-t from-accent to-accent/70 group-hover:from-white group-hover:to-accent"
+                      : "bg-gradient-to-t from-danger to-danger/70 group-hover:from-white group-hover:to-danger"
+                  }`}
                   style={{ height: `${h}%` }}
                 />
               </div>

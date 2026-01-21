@@ -65,7 +65,10 @@ function ChangePasswordForm() {
   }
 
   return (
-    <div className="bg-[url('/bg.svg')] flex flex-col justify-center items-center">
+    <div className="min-h-screen bg-bg1 flex flex-col justify-center items-center p-4 relative overflow-hidden">
+      {/* Background Ambience */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/20 rounded-full blur-[120px] pointer-events-none"></div>
+
       <Formik
         validationSchema={schema}
         initialValues={{
@@ -75,77 +78,99 @@ function ChangePasswordForm() {
         }}
         onSubmit={handleSubmit}
       >
-        {({ errors, isValid }) => {
+        {({ isValid }) => {
           return (
-            <Form className="flex flex-col justify-center items-center space-y-8 mt-24 lg:mt-16 max-w-md lg:bg-text1/10 px-16 py-12 rounded">
-              <legend className="text-center text-text1 font-bold text-2xl lg:text-3xl pt-4">
-                Change your password
-                <p className="text-sm font-normal py-2  text-center">
-                  {" "}
-                  Enter a new password to change your password.
-                </p>
-              </legend>
-
-              <div className="">
-                <img src={LogoImage.src} alt="Logo" className="w-40" />
+            <Form className="flex flex-col justify-center items-center space-y-6 max-w-md w-full card-nebula px-8 py-10 relative z-10">
+              <div className="flex flex-col items-center space-y-4 text-center">
+                <div className="p-4 bg-accent/10 rounded-full mb-2 shadow-[0_0_30px_-10px_rgba(59,130,246,0.5)]">
+                  <img
+                    src={LogoImage.src}
+                    alt="Logo"
+                    className="w-12 h-12 object-contain"
+                  />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-white tracking-tight mb-2">
+                    Change Password
+                  </h1>
+                  <p className="text-text2 text-sm">
+                    Enter your current and new password
+                  </p>
+                </div>
               </div>
 
-              <div className="w-full">
-                <Field
-                  type="password"
-                  name="password"
-                  className="field w-full"
-                  placeholder="Current Password"
-                />
+              <div className="w-full space-y-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-text2 uppercase tracking-widest ml-1">
+                    Current Password
+                  </label>
+                  <Field
+                    type="password"
+                    name="password"
+                    className="input-liquid"
+                    placeholder="Enter current password"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="p"
+                    className="text-danger text-xs pl-1 font-medium"
+                  />
+                </div>
 
-                <p className="text-red-400 text-sm pt-2">
-                  <ErrorMessage name="password" />
-                </p>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-text2 uppercase tracking-widest ml-1">
+                    New Password
+                  </label>
+                  <Field
+                    type="password"
+                    name="password1"
+                    className="input-liquid"
+                    placeholder="Enter new password"
+                  />
+                  <ErrorMessage
+                    name="password1"
+                    component="p"
+                    className="text-danger text-xs pl-1 font-medium"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-text2 uppercase tracking-widest ml-1">
+                    Confirm New Password
+                  </label>
+                  <Field
+                    type="password"
+                    name="password2"
+                    className="input-liquid"
+                    placeholder="Confirm new password"
+                  />
+                  <ErrorMessage
+                    name="password2"
+                    component="p"
+                    className="text-danger text-xs pl-1 font-medium"
+                  />
+                </div>
               </div>
 
-              <div className="w-full">
-                <Field
-                  type="password"
-                  name="password1"
-                  className="field w-full"
-                  placeholder="New Password"
-                />
-
-                <p className="text-red-400 text-sm pt-2">
-                  <ErrorMessage name="password1" />
-                </p>
-              </div>
-
-              <div className="w-full">
-                <Field
-                  type="password"
-                  name="password2"
-                  className="field w-full"
-                  placeholder="Confirm New Password"
-                />
-
-                <p className="text-red-400 text-sm pt-2">
-                  <ErrorMessage name="password2" />
-                </p>
-              </div>
-
-              <p className="text-sm">
-                New here?
-                <a className="underline" href="/sign-up">
-                  {" "}
-                  Sign up{" "}
-                </a>{" "}
-              </p>
-
-              <div className="w-[80%] mt-8">
+              <div className="w-full pt-2">
                 <button
                   disabled={!isValid || loading}
-                  className="bg-text1/80 hover:bg-text1/90 transition-flow text-bg1 px-8 disabled:opacity-40 disabled:pointer-events-none w-full py-2 text-center rounded outline-none "
+                  className="btn-neon w-full"
                   type="submit"
-                  role="form"
                 >
-                  {loading ? <Spinner size="tiny" /> : "Submit"}
+                  {loading ? <Spinner size="tiny" /> : "Change Password"}
                 </button>
+              </div>
+
+              <div className="text-center">
+                <p className="text-sm text-text3">
+                  <a
+                    className="text-accent hover:text-accent-glow font-medium transition-colors"
+                    href="/settings"
+                  >
+                    ← Back to Settings
+                  </a>
+                </p>
               </div>
             </Form>
           );
