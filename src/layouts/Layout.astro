@@ -68,17 +68,19 @@ const user = isAuth.user;
       src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
     ></script>
 
-    <div className="hidden lg:block">
+    <!-- Header: Desktop Only -->
+    <div class="hidden lg:block">
       <Header client:load user={isAuth} />
     </div>
     
-    <div className="lg:ml-24 min-h-screen pb-24 lg:pb-0">
+    <!-- Main Content Area -->
+    <main class="lg:ml-24 min-h-screen pt-0 lg:pt-0 pb-28 lg:pb-8">
       <Notify client:load />
       <WalletDetails client:load />
       <WithdrawalPopup user={user} client:load />
 
       <slot />
-    </div>
+    </main>
     
     {/* Desktop Sidebar */}
     <Sidebar client:only="react" />

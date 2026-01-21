@@ -35,8 +35,8 @@ function SettingsActions({ user }) {
   }
 
   return (
-    <div className="col-span-6 lg:col-span-4 card-nebula p-6">
-      <div className="flex flex-row justify-start space-x-2 items-center overflow-x-auto p-1 bg-surface2/50 backdrop-blur-md rounded-2xl mb-8 border border-white/5 w-fit">
+    <div className="card-nebula p-4 lg:p-6">
+      <div className="flex overflow-x-auto p-1 bg-surface2/50 backdrop-blur-md rounded-xl mb-6 border border-white/5 scrollbar-hide">
         <button
           onClick={selectActive(0)}
           className={cn(
