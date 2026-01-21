@@ -97,26 +97,46 @@ function Dash({ auth }) {
 
         {/* Performance Chart */}
         <div className="card-nebula p-5 lg:p-6">
-          <h3 className="text-base font-bold text-white mb-4 flex items-center gap-2">
-            <BsGraphUpArrow className="text-accent" />
-            <span>Market Performance</span>
-          </h3>
-          <div className="h-32 lg:h-48 w-full flex items-end gap-1 lg:gap-2">
-            {[40, 65, 30, 80, 55, 90, 70, 45, 60, 75, 50, 85].map((h, i) => (
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <BsGraphUpArrow className="text-accent" />
+                <span>Market Performance</span>
+              </h3>
+              <p className="text-text3 text-xs mt-1">Last 24 hours</p>
+            </div>
+            <div className="text-right">
+              <p className="text-success text-sm font-bold">+2.4%</p>
+              <p className="text-text3 text-xs">vs yesterday</p>
+            </div>
+          </div>
+
+          {/* Chart Bars */}
+          <div className="h-32 lg:h-40 w-full flex items-end gap-1 lg:gap-1.5">
+            {[
+              40, 65, 30, 80, 55, 90, 70, 45, 60, 75, 50, 85, 60, 72, 48, 88,
+            ].map((h, i) => (
               <div
                 key={i}
-                className="flex-1 bg-accent/10 rounded-t-sm relative"
+                className="flex-1 rounded-t-sm bg-accent/20 hover:bg-accent/30 transition-all cursor-pointer group relative"
+                style={{ height: "100%" }}
               >
                 <div
+                  className="absolute bottom-0 w-full bg-gradient-to-t from-accent to-accent/70 rounded-t-sm transition-all group-hover:from-white group-hover:to-accent"
                   style={{ height: `${h}%` }}
-                  className="absolute bottom-0 w-full bg-accent rounded-t-sm"
-                ></div>
+                />
               </div>
             ))}
           </div>
-          <p className="text-center text-xs text-text2 mt-3">
-            24H Trading Volume
-          </p>
+
+          {/* Chart Labels */}
+          <div className="flex justify-between mt-3 text-[10px] text-text3">
+            <span>12AM</span>
+            <span>6AM</span>
+            <span>12PM</span>
+            <span>6PM</span>
+            <span>Now</span>
+          </div>
         </div>
 
         {/* Account Status */}
