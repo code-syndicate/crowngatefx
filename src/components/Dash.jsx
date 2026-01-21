@@ -24,26 +24,17 @@ function Dash({ auth }) {
       </div>
 
       {/* Desktop Header */}
-      <div className="hidden lg:flex flex-col md:flex-row justify-between items-start md:items-end gap-4 px-8 pt-4 max-w-7xl mx-auto">
-        <div>
-          <p className="text-text2 text-sm uppercase tracking-widest font-bold mb-1">
-            Portfolio Overview
-          </p>
-          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-            Good {new Date().getHours() < 12 ? "Morning" : "Evening"},{" "}
-            {auth.user.firstName}
-          </h1>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-mono text-success bg-success/10 px-3 py-1 rounded-full border border-success/20 animate-pulse">
-            ● Live Market Data
-          </span>
-        </div>
+      <div className="hidden lg:block px-8 pt-4 max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold text-white tracking-tight">
+          Good {new Date().getHours() < 12 ? "Morning" : "Evening"},{" "}
+          {auth.user.firstName}
+        </h1>
+        <p className="text-text2 mt-1">Here's an overview of your portfolio.</p>
       </div>
 
       {/* Main Content */}
-      <div className="px-4 lg:px-8 py-6 lg:py-8 max-w-7xl mx-auto space-y-6">
-        {/* Hero Balance Card - Full width on mobile */}
+      <div className="px-4 lg:px-8 py-6 max-w-7xl mx-auto space-y-6">
+        {/* Hero Balance Card */}
         <div className="card-nebula p-6 lg:p-8 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 lg:w-96 h-64 lg:h-96 bg-accent/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3"></div>
 
@@ -128,7 +119,7 @@ function Dash({ auth }) {
           </p>
         </div>
 
-        {/* Account Status - Mobile friendly */}
+        {/* Account Status */}
         <div className="card-nebula p-6 flex items-center gap-4 lg:flex-col lg:items-center lg:text-center lg:py-8">
           <div className="w-14 h-14 lg:w-20 lg:h-20 rounded-full bg-gradient-to-tr from-accent to-purple-600 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.4)] flex-shrink-0">
             <span className="text-lg lg:text-2xl font-bold text-white">

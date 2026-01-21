@@ -80,7 +80,7 @@ function ProfileForm({ user }) {
   }
 
   return (
-    <div className="bg-[url('/bg.svg')] flex flex-col justify-center items-start pt-4">
+    <div className="space-y-6">
       <Formik
         validationSchema={schema}
         initialValues={{
@@ -94,43 +94,44 @@ function ProfileForm({ user }) {
         onSubmit={handleSubmit}
       >
         {({ isValid }) => {
-          // console.log(errors);
           return (
-            <Form className="grid grid-cols-2 gap-x-8 gap-y-4 w-full justify-center items-center  py-6 ">
-              <div className="w-full">
-                <label className="text-base text-left text-white capitalize pb-2 block">
-                  First Name
-                </label>
-                <Field
-                  type="text"
-                  name="firstName"
-                  className=" field pr-4  w-full "
-                  placeholder="First Name"
-                />
+            <Form className="space-y-5">
+              {/* Name Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-text2 mb-2 block">
+                    First Name
+                  </label>
+                  <Field
+                    type="text"
+                    name="firstName"
+                    className="input-liquid"
+                    placeholder="Enter first name"
+                  />
+                  <p className="text-danger text-xs mt-2">
+                    <ErrorMessage name="firstName" />
+                  </p>
+                </div>
 
-                <p className="text-red-400 text-sm pt-2">
-                  <ErrorMessage name="firstName" />
-                </p>
+                <div>
+                  <label className="text-sm font-medium text-text2 mb-2 block">
+                    Last Name
+                  </label>
+                  <Field
+                    type="text"
+                    name="lastName"
+                    className="input-liquid"
+                    placeholder="Enter last name"
+                  />
+                  <p className="text-danger text-xs mt-2">
+                    <ErrorMessage name="lastName" />
+                  </p>
+                </div>
               </div>
 
-              <div className="w-full">
-                <label className="text-base text-left text-white capitalize pb-2 block">
-                  Last Name
-                </label>
-                <Field
-                  type="text"
-                  name="lastName"
-                  className=" field pr-4 w-full "
-                  placeholder="Last Name"
-                />
-
-                <p className="text-red-400 text-sm pt-2">
-                  <ErrorMessage name="lastName" />
-                </p>
-              </div>
-
-              <div className="w-full">
-                <label className="text-base text-left text-white capitalize pb-2 block">
+              {/* Email */}
+              <div>
+                <label className="text-sm font-medium text-text2 mb-2 block">
                   Email Address
                 </label>
                 <Field
@@ -138,71 +139,71 @@ function ProfileForm({ user }) {
                   type="email"
                   disabled
                   name="email"
-                  className=" field pr-4 w-full "
+                  className="input-liquid opacity-60 cursor-not-allowed"
                   placeholder="Email Address"
                 />
-
-                <p className="text-red-400 text-sm pt-2">
-                  <ErrorMessage name="email" />
+                <p className="text-text3 text-xs mt-2">
+                  Email cannot be changed
                 </p>
               </div>
 
-              <div className="w-full">
-                <label className="text-base text-left text-white capitalize pb-2 block">
-                  Country
-                </label>
-                <Field
-                  type="text"
-                  name="country"
-                  className=" field pr-4 w-full "
-                  placeholder="Country"
-                />
+              {/* Location Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-text2 mb-2 block">
+                    Country
+                  </label>
+                  <Field
+                    type="text"
+                    name="country"
+                    className="input-liquid"
+                    placeholder="Enter country"
+                  />
+                  <p className="text-danger text-xs mt-2">
+                    <ErrorMessage name="country" />
+                  </p>
+                </div>
 
-                <p className="text-red-400 text-sm pt-2">
-                  <ErrorMessage name="country" />
-                </p>
+                <div>
+                  <label className="text-sm font-medium text-text2 mb-2 block">
+                    City
+                  </label>
+                  <Field
+                    type="text"
+                    name="city"
+                    className="input-liquid"
+                    placeholder="Enter city"
+                  />
+                  <p className="text-danger text-xs mt-2">
+                    <ErrorMessage name="city" />
+                  </p>
+                </div>
               </div>
 
-              <div className="w-full">
-                <label className="text-base text-left text-white capitalize pb-2 block">
-                  City
-                </label>
-                <Field
-                  type="text"
-                  name="city"
-                  className=" field pr-4 w-full "
-                  placeholder="City"
-                />
-
-                <p className="text-red-400 text-sm pt-2">
-                  <ErrorMessage name="city" />
-                </p>
-              </div>
-
-              <div className="w-full">
-                <label className="text-base text-left text-white capitalize pb-2 block">
+              {/* Zip Code */}
+              <div>
+                <label className="text-sm font-medium text-text2 mb-2 block">
                   Zip Code
                 </label>
                 <Field
                   type="text"
                   name="zipcode"
-                  className=" field pr-4 w-full "
-                  placeholder="Zip Code"
+                  className="input-liquid"
+                  placeholder="Enter zip code"
                 />
-
-                <p className="text-red-400 text-sm pt-2">
+                <p className="text-danger text-xs mt-2">
                   <ErrorMessage name="zipcode" />
                 </p>
               </div>
 
-              <div className="w-[80%] mt-8">
+              {/* Submit Button */}
+              <div className="pt-4">
                 <button
                   disabled={!isValid || loading}
-                  className="bg-text1/80 hover:bg-text1/90 transition-flow text-bg1 px-8 disabled:opacity-40 disabled:pointer-events-none w-full py-2 text-center rounded outline-none "
+                  className="btn-neon w-full md:w-auto"
                   type="submit"
-                  role="form"
                 >
-                  {loading ? <Spinner size="tiny" /> : "Update"}
+                  {loading ? <Spinner size="tiny" /> : "Save Changes"}
                 </button>
               </div>
             </Form>
