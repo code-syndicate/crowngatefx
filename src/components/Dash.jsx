@@ -24,7 +24,7 @@ function Dash({ auth }) {
       </div>
 
       {/* Desktop Header */}
-      <div className="hidden lg:flex flex-col md:flex-row justify-between items-start md:items-end gap-4 px-8 pt-8 max-w-7xl mx-auto">
+      <div className="hidden lg:flex flex-col md:flex-row justify-between items-start md:items-end gap-4 px-8 pt-4 max-w-7xl mx-auto">
         <div>
           <p className="text-text2 text-sm uppercase tracking-widest font-bold mb-1">
             Portfolio Overview
