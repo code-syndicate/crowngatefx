@@ -6,25 +6,76 @@ import { useState, useEffect } from "react";
 function Dash({ auth }) {
   const account = auth.user.account;
 
-  // Dynamic chart data
-  const [chartData, setChartData] = useState([
-    40, 65, 30, 80, 55, 90, 70, 45, 60, 75, 50, 85, 60, 72, 48, 88,
-  ]);
-  const [percentChange, setPercentChange] = useState(2.4);
-  const [isPositive, setIsPositive] = useState(true);
+  // Seeded random based on date (consistent for the day)
+  const getDateSeed = () => {
+    const today = new Date();
+    return (
+      today.getFullYear() * 10000 +
+      (today.getMonth() + 1) * 100 +
+      today.getDate()
+    );
+  };
 
-  // Update chart data periodically
+  const seededRandom = (seed, index = 0) => {
+    const x = Math.sin(seed + index) * 10000;
+    return x - Math.floor(x);
+  };
+
+  // Generate initial chart data based on today's date
+  const generateInitialData = () => {
+    const seed = getDateSeed();
+    return Array.from(
+      { length: 16 },
+      (_, i) => Math.floor(seededRandom(seed, i) * 50) + 35,
+    );
+  };
+
+  // Generate initial percentage based on today's date
+  const generateInitialPercent = () => {
+    const seed = getDateSeed();
+    const value = seededRandom(seed, 100) * 6 - 1; // Range: -1 to +5
+    return {
+      value: Math.abs(value).toFixed(2),
+      positive: value >= 0,
+    };
+  };
+
+  const initialPercent = generateInitialPercent();
+
+  // Dynamic chart data
+  const [chartData, setChartData] = useState(generateInitialData);
+  const [percentChange, setPercentChange] = useState(initialPercent.value);
+  const [isPositive, setIsPositive] = useState(initialPercent.positive);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  // Update chart data periodically with smooth animation indicator
   useEffect(() => {
     const interval = setInterval(() => {
-      // Generate new random data
-      const newData = chartData.map(() => Math.floor(Math.random() * 60) + 30);
-      setChartData(newData);
+      setIsUpdating(true);
 
-      // Update percentage change
-      const newChange = (Math.random() * 5 - 1).toFixed(2);
-      setPercentChange(Math.abs(newChange));
-      setIsPositive(parseFloat(newChange) >= 0);
-    }, 4000); // Update every 4 seconds
+      // Slightly modify chart data (+/- 10% variation from current values)
+      setChartData((prev) =>
+        prev.map((val) => {
+          const change = (Math.random() - 0.5) * 20; // +/- 10
+          return Math.max(25, Math.min(95, Math.floor(val + change)));
+        }),
+      );
+
+      // Small percentage change (+/- 0.5%)
+      setPercentChange((prev) => {
+        const change = (Math.random() - 0.5) * 0.8;
+        const newVal = Math.max(0, parseFloat(prev) + change);
+        return newVal.toFixed(2);
+      });
+
+      // Occasionally flip positive/negative (10% chance)
+      if (Math.random() < 0.1) {
+        setIsPositive((prev) => !prev);
+      }
+
+      // Reset animation indicator
+      setTimeout(() => setIsUpdating(false), 300);
+    }, 3000); // Update every 3 seconds for more noticeable updates
 
     return () => clearInterval(interval);
   }, []);
@@ -120,18 +171,27 @@ function Dash({ auth }) {
         </div>
 
         {/* Performance Chart */}
-        <div className="card-nebula p-5 lg:p-6">
+        <div
+          className={`card-nebula p-5 lg:p-6 transition-all duration-300 ${isUpdating ? "ring-1 ring-accent/30" : ""}`}
+        >
           <div className="flex justify-between items-start mb-4">
             <div>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <BsGraphUpArrow className="text-accent" />
+                <BsGraphUpArrow
+                  className={`text-accent transition-transform duration-300 ${isUpdating ? "scale-110" : ""}`}
+                />
                 <span>Market Performance</span>
               </h3>
-              <p className="text-text3 text-xs mt-1">Live • Updates every 4s</p>
+              <p className="text-text3 text-xs mt-1 flex items-center gap-2">
+                <span
+                  className={`w-1.5 h-1.5 rounded-full ${isUpdating ? "bg-accent animate-ping" : "bg-success"}`}
+                ></span>
+                Live • Updates every 3s
+              </p>
             </div>
             <div className="text-right">
               <p
-                className={`text-sm font-bold transition-colors ${isPositive ? "text-success" : "text-danger"}`}
+                className={`text-sm font-bold transition-all duration-300 ${isPositive ? "text-success" : "text-danger"} ${isUpdating ? "scale-105" : ""}`}
               >
                 {isPositive ? "+" : "-"}
                 {percentChange}%
