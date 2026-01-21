@@ -78,7 +78,10 @@ function SignUpForm() {
   }
 
   return (
-    <div className="min-h-screen bg-bg1 flex flex-col justify-center items-center py-12 px-4">
+    <div className="min-h-screen bg-bg1 flex flex-col justify-center items-center py-12 px-4 relative overflow-hidden">
+      {/* Background Ambience */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[100px] pointer-events-none"></div>
+
       <Formik
         validationSchema={schema}
         initialValues={{
@@ -92,16 +95,23 @@ function SignUpForm() {
       >
         {({ isValid }) => {
           return (
-            <Form className="flex flex-col justify-center items-center space-y-6 max-w-md w-full glass-panel px-8 py-10 rounded-2xl relative overflow-hidden">
-              {/* Decorative glow */}
-              <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-theme to-transparent opacity-50"></div>
-
-              <div className="flex flex-col items-center space-y-2 pb-2">
-                <img src={LogoImage.src} alt="Logo" className="w-16 mb-2" />
-                <h1 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">
-                  Create Account
-                </h1>
-                <p className="text-text1/50 text-sm">Join CrownGate FX</p>
+            <Form className="flex flex-col justify-center items-center space-y-8 max-w-md w-full card-nebula px-8 py-12 relative z-10">
+              <div className="flex flex-col items-center space-y-4 text-center">
+                <div className="p-4 bg-accent/10 rounded-full mb-2 shadow-[0_0_30px_-10px_rgba(59,130,246,0.5)]">
+                  <img
+                    src={LogoImage.src}
+                    alt="Logo"
+                    className="w-12 h-12 object-contain"
+                  />
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold text-white tracking-tight mb-2">
+                    Create Access ID
+                  </h1>
+                  <p className="text-text2 text-sm">
+                    Join the next generation of trading
+                  </p>
+                </div>
               </div>
 
               <div className="w-full grid grid-cols-2 gap-4">
@@ -109,26 +119,28 @@ function SignUpForm() {
                   <Field
                     type="text"
                     name="firstName"
-                    className="field"
+                    className="input-liquid"
                     placeholder="First Name"
                   />
-
-                  <p className="text-red-400 text-xs pl-1">
-                    <ErrorMessage name="firstName" />
-                  </p>
+                  <ErrorMessage
+                    name="firstName"
+                    component="p"
+                    className="text-danger text-xs pl-1 font-medium"
+                  />
                 </div>
 
                 <div className="space-y-1">
                   <Field
                     type="text"
                     name="lastName"
-                    className="field"
+                    className="input-liquid"
                     placeholder="Last Name"
                   />
-
-                  <p className="text-red-400 text-xs pl-1">
-                    <ErrorMessage name="lastName" />
-                  </p>
+                  <ErrorMessage
+                    name="lastName"
+                    component="p"
+                    className="text-danger text-xs pl-1 font-medium"
+                  />
                 </div>
               </div>
 
@@ -136,60 +148,63 @@ function SignUpForm() {
                 <Field
                   type="email"
                   name="email"
-                  className="field"
+                  className="input-liquid"
                   placeholder="Email Address"
                 />
-
-                <p className="text-red-400 text-xs pl-1">
-                  <ErrorMessage name="email" />
-                </p>
+                <ErrorMessage
+                  name="email"
+                  component="p"
+                  className="text-danger text-xs pl-1 font-medium"
+                />
               </div>
 
               <div className="w-full space-y-1">
                 <Field
                   type="password"
                   name="password1"
-                  className="field"
+                  className="input-liquid"
                   placeholder="Password"
                 />
-
-                <p className="text-red-400 text-xs pl-1">
-                  <ErrorMessage name="password1" />
-                </p>
+                <ErrorMessage
+                  name="password1"
+                  component="p"
+                  className="text-danger text-xs pl-1 font-medium"
+                />
               </div>
 
               <div className="w-full space-y-1">
                 <Field
                   type="password"
                   name="password2"
-                  className="field"
+                  className="input-liquid"
                   placeholder="Confirm Password"
                 />
-
-                <p className="text-red-400 text-xs pl-1">
-                  <ErrorMessage name="password2" />
-                </p>
+                <ErrorMessage
+                  name="password2"
+                  component="p"
+                  className="text-danger text-xs pl-1 font-medium"
+                />
               </div>
 
               <div className="w-full pt-4">
                 <button
                   disabled={!isValid || loading}
-                  className="btn-primary w-full text-base font-medium py-3"
+                  className="btn-neon w-full"
                   type="submit"
                   role="form"
                 >
-                  {loading ? <Spinner size="tiny" /> : "Sign Up"}
+                  {loading ? <Spinner size="tiny" /> : "Register Account"}
                 </button>
               </div>
 
               <div className="text-center pt-2">
-                <p className="text-sm text-text1/60">
-                  Already have an account?{" "}
+                <p className="text-sm text-text3">
+                  Already have an access ID?{" "}
                   <a
-                    className="text-theme hover:underline font-medium"
+                    className="text-accent hover:text-accent-glow font-medium transition-colors"
                     href="/sign-in"
                   >
-                    Sign In
+                    Login
                   </a>
                 </p>
               </div>

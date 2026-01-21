@@ -56,7 +56,10 @@ function SignInForm() {
   }
 
   return (
-    <div className="min-h-screen bg-bg1 flex flex-col justify-center items-center p-4">
+    <div className="min-h-screen bg-bg1 flex flex-col justify-center items-center p-4 relative overflow-hidden">
+      {/* Background Ambience */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/20 rounded-full blur-[120px] pointer-events-none"></div>
+
       <Formik
         validationSchema={schema}
         initialValues={{
@@ -67,77 +70,88 @@ function SignInForm() {
       >
         {({ errors, isValid }) => {
           return (
-            <Form className="flex flex-col justify-center items-center space-y-6 max-w-md w-full glass-panel px-8 py-10 rounded-2xl relative overflow-hidden">
-              {/* Decorative glow */}
-              <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-theme to-transparent opacity-50"></div>
-
-              <div className="flex flex-col items-center space-y-2 pb-4">
-                <img src={LogoImage.src} alt="Logo" className="w-16 mb-2" />
-                <h1 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">
-                  Welcome Back
-                </h1>
-                <p className="text-text1/50 text-sm">
-                  Sign in to manage your portfolio
-                </p>
-              </div>
-
-              <div className="w-full space-y-2">
-                <label className="text-xs font-semibold text-text1/60 uppercase tracking-wider ml-1">
-                  Email Address
-                </label>
-                <Field
-                  type="email"
-                  name="email"
-                  className="field"
-                  placeholder="Enter your email"
-                />
-                <p className="text-red-400 text-xs pt-1 pl-1">
-                  <ErrorMessage name="email" />
-                </p>
-              </div>
-
-              <div className="w-full space-y-2">
-                <div className="flex justify-between items-center ml-1">
-                  <label className="text-xs font-semibold text-text1/60 uppercase tracking-wider">
-                    Password
-                  </label>
-                  <a
-                    className="text-xs text-theme hover:text-theme/80 transition-colors"
-                    href="/reset-password"
-                  >
-                    Forgot password?
-                  </a>
+            <Form className="flex flex-col justify-center items-center space-y-8 max-w-md w-full card-nebula px-8 py-12 relative z-10">
+              <div className="flex flex-col items-center space-y-4 text-center">
+                <div className="p-4 bg-accent/10 rounded-full mb-2 shadow-[0_0_30px_-10px_rgba(59,130,246,0.5)]">
+                  <img
+                    src={LogoImage.src}
+                    alt="Logo"
+                    className="w-12 h-12 object-contain"
+                  />
                 </div>
-                <Field
-                  type="password"
-                  name="password"
-                  className="field"
-                  placeholder="Enter your password"
-                />
-                <p className="text-red-400 text-xs pt-1 pl-1">
-                  <ErrorMessage name="password" />
-                </p>
+                <div>
+                  <h1 className="text-3xl font-bold text-white tracking-tight mb-2">
+                    Welcome Back
+                  </h1>
+                  <p className="text-text2">
+                    Enter your credentials to access the terminal
+                  </p>
+                </div>
+              </div>
+
+              <div className="w-full space-y-5">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-text2 uppercase tracking-widest ml-1">
+                    Email Address
+                  </label>
+                  <Field
+                    type="email"
+                    name="email"
+                    className="input-liquid"
+                    placeholder="name@example.com"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="p"
+                    className="text-danger text-xs pl-1 font-medium"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center ml-1">
+                    <label className="text-xs font-bold text-text2 uppercase tracking-widest">
+                      Password
+                    </label>
+                    <a
+                      className="text-xs text-accent hover:text-accent-glow transition-colors font-medium"
+                      href="/reset-password"
+                    >
+                      Forgot password?
+                    </a>
+                  </div>
+                  <Field
+                    type="password"
+                    name="password"
+                    className="input-liquid"
+                    placeholder="••••••••"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="p"
+                    className="text-danger text-xs pl-1 font-medium"
+                  />
+                </div>
               </div>
 
               <div className="w-full pt-4">
                 <button
                   disabled={!isValid || loading}
-                  className="btn-primary w-full text-base font-medium py-3"
+                  className="btn-neon w-full"
                   type="submit"
                   role="form"
                 >
-                  {loading ? <Spinner size="tiny" /> : "Sign In"}
+                  {loading ? <Spinner size="tiny" /> : "Initiate Session"}
                 </button>
               </div>
 
               <div className="text-center pt-2">
-                <p className="text-sm text-text1/60">
-                  Don't have an account?{" "}
+                <p className="text-sm text-text3">
+                  New to the platform?{" "}
                   <a
-                    className="text-theme hover:underline font-medium"
+                    className="text-accent hover:text-accent-glow font-medium transition-colors"
                     href="/sign-up"
                   >
-                    Create account
+                    Create Access ID
                   </a>
                 </p>
               </div>
